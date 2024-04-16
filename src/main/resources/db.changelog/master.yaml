@@ -1,0 +1,129 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-roles
+      author: sterakare
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(20)
+
+  - changeSet:
+      id: create-table-bank-accounts
+      author: sterakare
+      changes:
+        - createTable:
+            tableName: bank_accounts
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: balance
+                  type: BIGINT
+              - column:
+                  name: creation_date
+                  type: DATE
+              - column:
+                  name: bank_account_number
+                  type: VARCHAR(255)
+
+  - changeSet:
+      id: create-table-users
+      author: sterakare
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: login
+                  type: VARCHAR(255)
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+              - column:
+                  name: bank_account_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_bank_account_id
+                    references: bank_accounts(id)
+
+  - changeSet:
+      id: create-table-users-roles
+      author: sterakare
+      changes:
+        - createTable:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_user_id
+                    references: users(id)
+              - column:
+                  name: role_id
+                  type: INT
+                  constraints:
+                    foreignKeyName: fk_role_id
+                    references: roles(id)
+            primaryKey:
+              columnNames:
+                - user_id
+                - role_id
+
+  - changeSet:
+      id: create-table-roles
+      author: sterakare
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(20)
+  - changeSet:
+      id: insert-roles-data
+      author: sterakare
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: name
+                  value: 'ROLE_USER'
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: name
+                  value: 'ROLE_ADMIN'
